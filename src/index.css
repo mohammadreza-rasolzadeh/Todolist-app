@@ -1,0 +1,231 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f1f5f8;
+    font-family: "BYekan";
+    direction: rtl;
+}
+
+.section-center {
+    width: 90vw;
+    max-width: 35rem;
+    margin: 8rem auto 0 auto;
+    background-color: #ffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    color: #063251;
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+    line-height: 2;
+}
+
+.alert {
+    display: grid;
+    place-items: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 0.15rem 0;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-warning {
+    background-color: #ffc400;
+    /* color: #FFa500; */
+}
+
+.add-todo {
+    margin-top: 1.9rem;
+}
+
+.input-group {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.todo-input {
+    font-size: 1rem;
+    font-family: "BYekan";
+    background-color: #f1f5f8;
+    color: #617d98;
+    outline-color: #607d8b;
+    border: 0;
+    padding: 0.25rem 1rem 0.25rem 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.btn {
+    color: #102a42;
+    font-family: "BYekan";
+    font-size: 0.9rem;
+    text-align: center;
+    line-height: 1.5;
+    padding: 0.25rem 1rem;
+    border: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+
+.add-btn {
+    background-color: #a5d5f8;
+}
+
+.add-btn:hover {
+    background-color: #49a6e9;
+    color: #fff;
+}
+
+.edit-todo {
+    background-color: #ffc300;
+}
+
+.edit-todo:hover {
+    background-color: #ffa500;
+    color: #fff;
+}
+
+.todo-search {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.search-input {
+    font-size: 1rem;
+    font-family: "BYekan";
+    background-color: #f1f5f8;
+    color: #617d98;
+    outline: 0;
+    border: 0;
+    padding: 0.25rem 1rem 0.25rem 0;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.search-btn {
+    padding: 0.25rem 0.5rem;
+    background: #5f9ea0;
+    color: #102a42;
+    font-size: 1rem;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.todo-list {
+    max-height: 9rem;
+    overflow: auto;
+    margin: 2rem 0 1.75rem 0;
+}
+
+.list-item {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    margin-bottom: 0.75rem;
+    border-radius: 5px;
+    transition: all 0.3s linear;
+}
+
+.list-item:hover {
+    background-color: #f1f5f8;
+    color: #102a42;
+}
+
+.text {
+    color: #102a42;
+}
+
+.list-item:hover .text {
+    color: #617d98;
+}
+
+.edit-btn,
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+
+.edit-btn {
+    color: #6be675;
+}
+
+.edit-btn:hover {
+    color: #25bb32;
+}
+
+.delete-btn {
+    color: #e66b6b;
+    margin-right: 0.5rem;
+}
+
+.delete-btn:hover {
+    color: #bb2525;
+}
+
+.clear-btn {
+    width: 15rem;
+    margin: 0 auto;
+    padding: 0.25rem 0;
+    display: grid;
+    color: #bb2525;
+    background: transparent;
+    font-size: 1rem;
+    font-family: "BYekan";
+    border: 1px solid #e66b6b;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+
+.clear-btn:hover {
+    background-color: #e66b6b;
+    color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+    .section-center {
+        width: 95vw;
+    }
+    .title {
+        font-size: 2.25rem;
+    }
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    border: "2px solid";
+    border-color: #dbdbdb;
+    background: rgba(211, 211, 211, 1);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
