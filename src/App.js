@@ -1,13 +1,26 @@
+import _ from "lodash";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
+import { AddTodo, Todos } from "./components";
 import { TodoContext } from "./context/TodoContext";
-import { AddTodo, Todos, Alert } from "./components";
+
+const getTodoFromLocalStorage = () => {
+  let todos = localStorage.getItem("todos");
+
+  if (todos) {
+    todos = JSON.parse(localStorage.getItem("todos"));
+  } else {
+    todos = [];
+  }
+
+  return todos;
+};
 
 const App = () => {
-
-  const [todos, setTodos] = useState([]);
-  const [filtredTodos, setFiltredTodos] = useState([]);
   const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState(getTodoFromLocalStorage());
+  const [filtredTodos, setFiltredTodos] = useState(getTodoFromLocalStorage());
   const [editTodo, setEditTodo] = useState({});
   const [editTodoIndex, setEditTodoIndex] = useState(null);
   const [edit, setEdit] = useState(false);
@@ -18,17 +31,18 @@ const App = () => {
     e.preventDefault();
 
     if (todo && !edit) {
-      showAlert(true, "success", "کار مورنظر به لیست اضافه گردید");
+      toast.success("کار موردنظر به لیست اضافه گردید");
       createNewTodo();
     } else if (todo && edit) {
       const getTodos = [...todos];
       editTodo.text = todo;
       getTodos[editTodoIndex] = editTodo;
       setTodos(getTodos);
-      showAlert(true, "warning", "گزینه موردنظر با موفقیت ویرایش شد");
+      setFiltredTodos(getTodos);
+      toast.warning("گزینه موردنظر ویرایش شد");
       resetValues();
     } else {
-      showAlert(true, "danger", "لطفا مقداری را وارد نمایید");
+      toast.error("لطفا مقداری را وارد نمایید");
     }
   };
 
@@ -36,12 +50,11 @@ const App = () => {
     const getTodo = {
       id: Date.now(),
       text: todo,
-      complete: false,
+      completed: false,
     };
 
     setTodos([...todos, getTodo]);
     setFiltredTodos([...todos, getTodo]);
-
     setTodo("");
   };
 
@@ -60,10 +73,25 @@ const App = () => {
     const filtredTodos = getTodos.filter((todo) => todo.id !== todoId);
     setTodos(filtredTodos);
     setFiltredTodos(filtredTodos);
-    showAlert(true, "danger", "گزینه موردنظر با موفقیت حذف شد");
+    toast.success("گزینه موردنظر حذف شد");
   };
 
-  const onSearchTodo = (query) => {
+  const onCompletedTodo = (todoId) => {
+    const getTodos = [...todos];
+    const todoIndex = getTodos.findIndex((todo) => todo.id === todoId);
+    const todo = getTodos[todoIndex];
+    todo.completed = !todo.completed;
+    getTodos[todoIndex] = todo;
+    setTodos(getTodos);
+    setFiltredTodos(getTodos);
+    if (todo.completed) {
+      toast.success(" به حالت انجام شده قرار گرفت");
+    } else {
+      toast.success(" از حالت انجام شده خارج شد");
+    }
+  };
+
+  const onSearchTodo = _.debounce((query) => {
     if (!query) return setFiltredTodos([...todos]);
 
     let allTodos = todos.filter((todo) => {
@@ -71,13 +99,29 @@ const App = () => {
     });
 
     setFiltredTodos(allTodos);
+  }, 400);
+
+  const onFiltredTodos = (value) => {
+    const getTodos = [...todos];
+
+    let result;
+
+    if (value === "all") {
+      result = getTodos;
+    } else if (value === "completed") {
+      result = getTodos.filter((todo) => todo.completed);
+    } else if (value === "notCompleted") {
+      result = getTodos.filter((todo) => !todo.completed);
+    }
+
+    setFiltredTodos(result);
   };
 
   const clearList = () => {
     setTodos([]);
     setFiltredTodos([]);
     resetValues();
-    showAlert(true, "danger", "لیست با موفقیت پاک شد");
+    toast.success("لیست پاک شد");
   };
 
   const resetValues = () => {
@@ -91,6 +135,10 @@ const App = () => {
   const showAlert = (show = false, action, message) => {
     setAlert({ show, action, message });
   };
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   return (
     <TodoContext.Provider
@@ -110,18 +158,18 @@ const App = () => {
         onSubmitForm,
         onUpdateTodo,
         onDeleteTodo,
+        onCompletedTodo,
         onSearchTodo,
+        onFiltredTodos,
         clearList,
       }}
     >
       <section className="section-center">
-        {alert.show && (
-          <Alert action={alert.action} message={alert.message} />
-        )}
         <h2 className="title">مدیریت کارهای روزانه</h2>
         <AddTodo />
         <Todos />
       </section>
+      <ToastContainer position="top-center" theme="colored" rtl={true} />
     </TodoContext.Provider>
   );
 };
