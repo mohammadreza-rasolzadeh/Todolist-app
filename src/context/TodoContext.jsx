@@ -6,8 +6,6 @@ export const TodoContext = createContext({
   filtredTodos: [],
   edit: false,
   editID: "",
-  alert: {},
-  showAlert: () => {},
   setEdit: () => {},
   setEditID: () => {},
   setTodo: () => {},

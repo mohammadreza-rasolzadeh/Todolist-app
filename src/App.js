@@ -2,7 +2,7 @@ import _ from "lodash";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
-import { AddTodo, Todos } from "./components";
+import { AddTodo, TodosContainer } from "./components/Todos";
 import { TodoContext } from "./context/TodoContext";
 
 const getTodoFromLocalStorage = () => {
@@ -25,7 +25,6 @@ const App = () => {
   const [editTodoIndex, setEditTodoIndex] = useState(null);
   const [edit, setEdit] = useState(false);
   const [editID, setEditID] = useState(null);
-  const [alert, setAlert] = useState({ show: false, action: "", message: "" });
 
   const onSubmitForm = (e) => {
     e.preventDefault();
@@ -132,10 +131,6 @@ const App = () => {
     setEditID(null);
   };
 
-  const showAlert = (show = false, action, message) => {
-    setAlert({ show, action, message });
-  };
-
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
@@ -148,8 +143,6 @@ const App = () => {
         filtredTodos,
         edit,
         editID,
-        alert,
-        showAlert,
         setTodo,
         setTodos,
         setFiltredTodos,
@@ -165,11 +158,15 @@ const App = () => {
       }}
     >
       <section className="section-center">
-        <h2 className="title">مدیریت کارهای روزانه</h2>
-        <AddTodo />
-        <Todos />
-      </section>
-      <ToastContainer position="top-center" theme="colored" rtl={true} />
+        <h2 className="title"> مدیریت کارهای روزانه </h2> <AddTodo />
+        <TodosContainer />
+      </section>{" "}
+      <ToastContainer
+        position="top-center"
+        theme="colored"
+        rtl={true}
+        autoClose={2000}
+      />{" "}
     </TodoContext.Provider>
   );
 };
