@@ -16,6 +16,8 @@ export const TodoContext = createContext({
   onSubmitForm: () => {},
   onUpdateTodo: () => {},
   onDeleteTodo: () => {},
+  onCompletedTodo: () => {},
   onSearchTodo: () => {},
-  clearList:() => {}
+  onFiltredTodos: () => {},
+  clearList: () => {},
 });
